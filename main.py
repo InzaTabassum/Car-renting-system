@@ -1,52 +1,89 @@
+import tkinter as tk
+from tkinter import messagebox
+from PIL import Image, ImageTk
 from blockchain import Blockchain
 from car_sharing import Owner, Car, Customer
+from customer_ui import CustomerUI
+from owner_ui import OwnerUI
+from car_data import CarData
 
+class CarSharingApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Blockchain Car Sharing")
 
-def show_balance(cust_balance, owner_balance):
-    print("Customer balance: %s" % (cust_balance,))
-    print("Owner balance: %s" % (owner_balance,))
+        self.blockchain = Blockchain()
+        self.customer = Customer(500)
+        self.owner = Owner(500)
 
-def show_rental_cost(cost):
-    print("Rental cost: ", cost)
+        self.car_data = CarData()
+        self.customer_ui = CustomerUI(self.root, self.car_data)
+        self.owner_ui = OwnerUI(self.root, self.car_data)
 
-def start():
-    blockchain = Blockchain()
-    customer = Customer(500)
-    owner = Owner(500)
-    eth = 50
+        self.root.geometry("800x600")
+        self.root.resizable(False, False)
 
-    show_balance(customer.balance, owner.balance)
+        self.add_background_image()
+        self.create_widgets()
 
-    #1
-    owner.deploy(eth, blockchain)
+    def add_background_image(self):
+        image = Image.open(r"C:/Users/LENOVO/car-sharing-blockchain/img_1.png")
+        image = image.resize((800, 600))
+        self.bg_image = ImageTk.PhotoImage(image)
+        self.bg_label = tk.Label(self.root, image=self.bg_image)
+        self.bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-    #2
-    customer.request_book(eth, blockchain)
+    def create_widgets(self):
+        overlay = tk.Frame(self.root, bg='white')
+        overlay.place(relx=0.5, rely=0.5, anchor='center', width=500, height=400)
 
-    #3
-    car = "Ferrari"
-    daily_price = 10
-    days_no = 3
-    owner.add_car_to_rent(daily_price, car)
-    customer.pass_number_of_days(days_no)
+        title_label = tk.Label(
+            overlay,
+            text="Car Sharing on Blockchain",
+            font=('Helvetica', 20, 'bold'),
+            bg='white',
+            fg='#333'
+        )
+        title_label.pack(pady=(30, 40))
 
-    #4
-    owner.encrypt_and_store_details(blockchain)
-    owner.allow_car_usage()
+        button_frame = tk.Frame(overlay, bg='white')
+        button_frame.pack()
 
-    #5
-    customer.access_car()
+        customer_button = tk.Button(
+            button_frame,
+            text="Customer",
+            command=self.customer_interface,
+            width=20,
+            height=2,
+            font=('Helvetica', 14),
+            bg='#007acc',
+            fg='white',
+            bd=0,
+            activebackground='#005f99'
+        )
+        customer_button.pack(pady=15)
 
-    #6
-    customer.end_car_rental()
+        owner_button = tk.Button(
+            button_frame,
+            text="Owner",
+            command=self.owner_interface,
+            width=20,
+            height=2,
+            font=('Helvetica', 14),
+            bg='#007acc',
+            fg='white',
+            bd=0,
+            activebackground='#005f99'
+        )
+        owner_button.pack(pady=15)
 
-    #7
-    owner.withdraw_earnings()
-    customer.retrieve_balance()
+    def customer_interface(self):
+        self.customer_ui.show_car_listings()
 
-    show_rental_cost(daily_price*days_no)
-    show_balance(customer.balance, owner.balance)
+    def owner_interface(self):
+        self.owner_ui.show_car_editor()
 
-
-if __name__ == '__main__':
-    start()
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = CarSharingApp(root)
+    root.mainloop()

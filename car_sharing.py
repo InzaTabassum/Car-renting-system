@@ -4,7 +4,6 @@ class Owner:
     def __init__(self, balance):
         self.contract = SmartContract
         self.balance = balance
-
     def add_car_to_rent(self, day_price, car_info):
         car = Car(car_info)
         self.contract.add_booking_details(BookingDetails(car, day_price))
