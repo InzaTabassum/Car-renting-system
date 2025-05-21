@@ -1,9 +1,9 @@
-# Car sharing blockchain 
-Proof of concept system to renting cars with use of smart contracts. 
-### Prerequisites
-You do not need any extra libraries, the only thing is installed Python3.
-### Running 
-We have provided example with renting one car for three days. 
+### Running
+Run main.py, The GUI will appear, from there you can selet role either the customer or the owner.
+As a customer you can see the car details and apply for renting the car with start and end date.
+As an owner you can edit the car details also you can see if someone apply for the sar or not, if yes than 
+you have to mark that car as unavailable so that the customers can see that this car is not available.
+
 To run example:
 ```
 git clone https://github.com/jakubrog/car-sharing-blockchain/
