@@ -5,6 +5,8 @@ As an owner you can edit the car details also you can see if someone apply for t
 you have to mark that car as unavailable so that the customers can see that this car is no longer available. You 
 should refresh after changing the status of the car. 
 
+Must install tkcalender and pillow to run this code
+
 To run example:
 ```
 git clone https://github.com/jakubrog/car-sharing-blockchain/
